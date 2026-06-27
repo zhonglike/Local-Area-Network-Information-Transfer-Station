@@ -62,6 +62,9 @@ python app.py --mode client --connect http://192.168.1.100:9527   # client mode
 └── installer/              # Windows installer script
 ```
 
+##  Statement 
+This work was developed with AI assistance.
+
 ## 📝 License
 
 MIT
