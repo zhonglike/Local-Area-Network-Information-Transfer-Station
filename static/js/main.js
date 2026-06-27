@@ -29,6 +29,9 @@ function initServerInfo() {
             document.getElementById('serverAddress').textContent = addr;
             document.title = `LANITS - ${addr}`;
             generateQR(`http://${addr}`);
+            if (res.data.apk_size > 0) {
+                document.getElementById('apkDownloadBtn').style.display = '';
+            }
         }
     }).catch(() => {
         document.getElementById('serverAddress').textContent = '无法连接';

@@ -213,12 +213,23 @@ def index():
 
 @app.route('/api/info')
 def api_info():
+    apk_path = os.path.join(BASE_DIR, 'static', 'LANITS.apk')
+    apk_size = os.path.getsize(apk_path) if os.path.exists(apk_path) else 0
     return api_ok({
         'server_ip': get_local_ip(),
         'port': 9527,
         'server_name': socket.gethostname(),
-        'uptime': time.time()
+        'uptime': time.time(),
+        'apk_size': apk_size
     })
+
+@app.route('/api/apk')
+def download_apk():
+    apk_path = os.path.join(BASE_DIR, 'static', 'LANITS.apk')
+    if not os.path.exists(apk_path):
+        return api_err('APK not found', 404)
+    return send_file(apk_path, mimetype='application/vnd.android.package-archive',
+                     as_attachment=True, download_name='LANITS.apk')
 
 @app.route('/api/clipboard', methods=['POST'])
 def add_clipboard():
