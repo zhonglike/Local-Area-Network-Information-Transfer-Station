@@ -42,5 +42,4 @@ android/captures/
 *.keystore
 
 # Windows Installer
-installer/*.exe
 installer/*.msi

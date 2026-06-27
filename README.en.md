@@ -20,8 +20,9 @@
 
 ### Windows (Server)
 
-**Option 1 (recommended)** — Double-click `一键启动.bat` to start the server, create desktop shortcut, and open browser
-**Option 2** — Double-click `dist\LANITS.exe` or `创建快捷方式.bat` to create a desktop shortcut
+**Option 1 (recommended)** — Download [LANITS_Setup.exe](installer/LANITS_Setup.exe) and install (desktop shortcut auto-created)
+**Option 2** — Double-click `一键启动.bat` to start + create shortcut
+**Option 3** — Double-click `dist\LANITS.exe` directly
 
 Once started, the address `http://your-ip:9527` is shown — scan the QR code from any device.
 
