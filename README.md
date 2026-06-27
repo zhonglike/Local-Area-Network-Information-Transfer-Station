@@ -23,14 +23,14 @@
 ### Windows 服务端
 
 **方式一（推荐）** — 双击 `一键启动.bat`，自动启动服务 + 创建桌面快捷方式 + 打开浏览器
-**方式二** — 双击 `创建快捷方式.bat`，在桌面生成 LANITS 快捷方式
+**方式二** — 双击 `dist\LANITS.exe` 或 `创建快捷方式.bat` 生成桌面快捷方式
 
 启动后，地址栏显示 `http://你的IP:9527`，手机扫码即连。
 
 ### Android 手机
 
 方式一：扫码打开网页 → 点「下载 APK」直接安装
-方式二：下载 [LANITS.apk]() 并安装
+方式二：下载 [LANITS.apk](android/app/build/outputs/apk/debug/app-debug.apk) 并安装
 
 打开 App，自动扫描局域网内的 LANITS 服务器，连接后即可同步剪贴板和传输文件。
 

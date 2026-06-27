@@ -21,14 +21,14 @@
 ### Windows (Server)
 
 **Option 1 (recommended)** — Double-click `一键启动.bat` to start the server, create desktop shortcut, and open browser
-**Option 2** — Double-click `创建快捷方式.bat` to create a desktop shortcut for LANITS
+**Option 2** — Double-click `dist\LANITS.exe` or `创建快捷方式.bat` to create a desktop shortcut
 
 Once started, the address `http://your-ip:9527` is shown — scan the QR code from any device.
 
 ### Android
 
 Option 1: Scan QR → tap "Download APK" in the web UI
-Option 2: Download [LANITS.apk]() and install
+Option 2: Download [LANITS.apk](android/app/build/outputs/apk/debug/app-debug.apk) and install
 
 Open the app — it auto-scans for LANITS servers on your network. Tap to connect and start syncing.
 
