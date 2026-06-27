@@ -64,6 +64,9 @@ python app.py --mode client --connect http://192.168.1.100:9527   # 客户端模
 └── installer/              # Windows 安装包脚本
 ```
 
+##  声明
+此作品由AI辅助开发
+
 ## 📝 开源协议
 
 MIT License
