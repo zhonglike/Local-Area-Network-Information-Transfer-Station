@@ -1,0 +1,3 @@
+-keep class org.java_websocket.** { *; }
+-keep class com.lants.app.** { *; }
+-dontwarn org.java_websocket.**

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>LANITS</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/static/css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
+</head>
+<body>
+<div class="app-container">
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-bolt"></i>
+                    <h1>LANITS</h1>
+                    <span class="status-dot" id="statusDot" title="Disconnected"></span>
+                </div>
+                <span class="badge badge-primary">中转站</span>
+            </div>
+            <div class="header-right">
+                <div class="server-info" id="serverInfo">
+                    <i class="fas fa-network-wired"></i>
+                    <span id="serverAddress">连接中...</span>
+                    <button class="btn-icon" onclick="copyServerAddress()" title="复制地址">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <button class="btn-icon" onclick="showQR()" title="显示二维码">
+                    <i class="fas fa-qrcode"></i>
+                </button>
+                <button class="btn-icon" onclick="toggleTheme()" id="themeToggle" title="切换主题">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="clipboard">
+                <i class="fas fa-paste"></i> <span>剪贴板</span>
+            </button>
+            <button class="tab-btn" data-tab="files">
+                <i class="fas fa-folder"></i> <span>文件</span>
+            </button>
+            <button class="tab-btn" data-tab="history">
+                <i class="fas fa-history"></i> <span>历史</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="app-main">
+        <!-- Clipboard Tab -->
+        <section class="tab-content active" id="tab-clipboard">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-keyboard"></i> 发送文字</h3>
+                </div>
+                <div class="card-body">
+                    <textarea id="textInput" placeholder="在此输入文字，或粘贴图片后自动发送..." rows="4"></textarea>
+                    <div class="input-actions">
+                        <div class="action-left">
+                            <button class="btn btn-primary" onclick="sendText()">
+                                <i class="fas fa-paper-plane"></i> 发送
+                            </button>
+                            <label class="btn btn-secondary">
+                                <i class="fas fa-image"></i> 图片
+                                <input type="file" accept="image/*" hidden onchange="sendImage(event)">
+                            </label>
+                        </div>
+                        <div class="action-right">
+                            <label class="expire-label">
+                                过期
+                                <select id="clipExpire">
+                                    <option value="1">1h</option>
+                                    <option value="24" selected>24h</option>
+                                    <option value="72">3d</option>
+                                    <option value="168">7d</option>
+                                    <option value="0">永不</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-download"></i> 最新剪贴板 <span class="live-badge" id="liveBadge">LIVE</span></h3>
+                    <button class="btn btn-sm" onclick="refreshLatest()"><i class="fas fa-sync-alt"></i></button>
+                </div>
+                <div class="card-body" id="latestClipboard">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>复制内容后会自动显示在这里</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-bolt"></i> 快速操作</h3>
+                </div>
+                <div class="card-body">
+                    <div class="quick-actions">
+                        <button class="action-card" onclick="copyLatestText()">
+                            <i class="fas fa-copy"></i> <span>复制最新文字</span>
+                        </button>
+                        <button class="action-card" onclick="downloadLatestImage()">
+                            <i class="fas fa-image"></i> <span>下载最新图片</span>
+                        </button>
+                        <button class="action-card" onclick="clearClipboard()">
+                            <i class="fas fa-trash-alt"></i> <span>清空剪贴板</span>
+                        </button>
+                        <button class="action-card" onclick="showQR()">
+                            <i class="fas fa-qrcode"></i> <span>显示二维码</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Files Tab -->
+        <section class="tab-content" id="tab-files">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-upload"></i> 上传文件</h3>
+                </div>
+                <div class="card-body">
+                    <div class="drop-zone" id="dropZone">
+                        <div class="drop-zone-content">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>拖拽文件到此处，或点击选择</p>
+                            <span class="text-muted">图片 · 视频 · ZIP · DOCX · PDF · 任意格式</span>
+                        </div>
+                        <input type="file" id="fileInput" hidden multiple onchange="uploadFiles(event)">
+                    </div>
+                    <div class="upload-options">
+                        <label class="expire-label">
+                            过期
+                            <select id="fileExpire">
+                                <option value="1">1h</option>
+                                <option value="24" selected>24h</option>
+                                <option value="72">3d</option>
+                                <option value="168">7d</option>
+                                <option value="0">永不</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="upload-progress" id="uploadProgress" style="display:none">
+                        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                        <span id="progressText">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-database"></i> 已上传文件</h3>
+                    <div class="header-actions">
+                        <button class="btn btn-sm" onclick="refreshFiles()"><i class="fas fa-sync-alt"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="clearFiles()"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+                <div class="card-body" id="fileList">
+                    <div class="empty-state"><i class="fas fa-folder-open"></i><p>暂无文件</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Tab -->
+        <section class="tab-content" id="tab-history">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-history"></i> 剪贴板历史</h3>
+                    <div class="header-actions">
+                        <div class="filter-group">
+                            <button class="btn btn-sm filter-btn active" data-filter="all">全部</button>
+                            <button class="btn btn-sm filter-btn" data-filter="text">文字</button>
+                            <button class="btn btn-sm filter-btn" data-filter="image">图片</button>
+                        </div>
+                        <button class="btn btn-sm" onclick="refreshHistory()"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                </div>
+                <div class="card-body" id="historyList">
+                    <div class="empty-state"><i class="fas fa-history"></i><p>暂无历史记录</p></div>
+                </div>
+                <div class="card-footer" id="historyFooter" style="display:none">
+                    <button class="btn btn-block" onclick="loadMoreHistory()"><i class="fas fa-chevron-down"></i> 加载更多</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- QR Modal -->
+<div class="modal-overlay" id="qrModal" onclick="closeQR()">
+    <div class="modal-content modal-sm" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeQR()">&times;</button>
+        <h3 style="text-align:center;margin:16px 0 8px">📱 手机扫码连接</h3>
+        <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-bottom:16px">同一局域网下扫码即可</p>
+        <div id="qrcode" style="display:flex;justify-content:center;margin-bottom:16px"></div>
+        <p id="qrAddress" style="text-align:center;font-size:14px;color:var(--text-secondary)"></p>
+    </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-overlay" id="previewModal" onclick="closePreview()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closePreview()">&times;</button>
+        <div id="previewContent"></div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>

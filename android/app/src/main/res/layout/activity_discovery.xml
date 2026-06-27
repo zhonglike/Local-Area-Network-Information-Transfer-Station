@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#1a1a2e">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scanning for LANITS servers..."
+        android:textColor="#a0a0b8"
+        android:textSize="14sp"
+        android:id="@+id/discovery_status"
+        android:layout_marginBottom="12dp" />
+
+    <ListView
+        android:id="@+id/discovery_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#2d2d4a"
+        android:dividerHeight="1dp" />
+
+    <Button
+        android:id="@+id/discovery_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:text="Scan Again"
+        android:background="#6c5ce7"
+        android:textColor="#ffffff"
+        android:textAllCaps="false" />
+
+</LinearLayout>

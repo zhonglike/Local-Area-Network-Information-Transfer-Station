@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.spec
+*.pyo
+*.egg
+
+# Data
+data.db
+uploads/*
+!uploads/.gitkeep
+clipboard_files/*
+!clipboard_files/.gitkeep
+
+# Environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/captures/
+*.apk
+*.aab
+*.keystore
+
+# Windows Installer
+installer/*.exe
+installer/*.msi
