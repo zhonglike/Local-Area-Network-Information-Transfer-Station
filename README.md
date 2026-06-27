@@ -22,15 +22,17 @@
 
 ### Windows 服务端
 
-1. 下载 [LANITS_Setup.exe]() 并安装
-2. 运行，自动显示地址 `http://你的IP:9527`
-3. 同一局域网内手机打开浏览器扫码连接
+**方式一（推荐）** — 双击 `一键启动.bat`，自动启动服务 + 创建桌面快捷方式 + 打开浏览器
+**方式二** — 双击 `创建快捷方式.bat`，在桌面生成 LANITS 快捷方式
+
+启动后，地址栏显示 `http://你的IP:9527`，手机扫码即连。
 
 ### Android 手机
 
-1. 下载 [LANITS.apk]()
-2. 打开 App，自动扫描局域网内的 LANITS 服务器
-3. 连接后即可自动同步剪贴板和传输文件
+方式一：扫码打开网页 → 点「下载 APK」直接安装
+方式二：下载 [LANITS.apk]() 并安装
+
+打开 App，自动扫描局域网内的 LANITS 服务器，连接后即可同步剪贴板和传输文件。
 
 ### 多设备场景
 
@@ -50,10 +52,12 @@ python app.py --mode client --connect http://192.168.1.100:9527   # 客户端模
 ## 📦 项目结构
 
 ```
+├── 一键启动.bat             # Windows 一键启动 + 创建快捷方式
+├── 创建快捷方式.bat          # 单独创建桌面快捷方式
 ├── app.py                  # 主程序（Flask + WebSocket + 双模式）
 ├── tray.py                 # 系统托盘
 ├── zeroconf_service.py     # mDNS 自动发现
-├── static/                 # Web 前端
+├── static/                 # Web 前端（含 APK 下载）
 ├── templates/              # HTML 模板
 ├── android/                # Android App 源码
 └── installer/              # Windows 安装包脚本

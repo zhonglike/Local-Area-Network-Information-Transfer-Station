@@ -20,15 +20,17 @@
 
 ### Windows (Server)
 
-1. Download [LANITS_Setup.exe]() and install
-2. Run — the address `http://your-ip:9527` is shown
-3. Open browser on any LAN device to connect
+**Option 1 (recommended)** — Double-click `一键启动.bat` to start the server, create desktop shortcut, and open browser
+**Option 2** — Double-click `创建快捷方式.bat` to create a desktop shortcut for LANITS
+
+Once started, the address `http://your-ip:9527` is shown — scan the QR code from any device.
 
 ### Android
 
-1. Download [LANITS.apk]()
-2. Open — auto-scans for LANITS servers on your network
-3. Tap to connect and start syncing
+Option 1: Scan QR → tap "Download APK" in the web UI
+Option 2: Download [LANITS.apk]() and install
+
+Open the app — it auto-scans for LANITS servers on your network. Tap to connect and start syncing.
 
 ### Multi-Device
 
@@ -48,10 +50,12 @@ python app.py --mode client --connect http://192.168.1.100:9527   # client mode
 ## 📦 Structure
 
 ```
+├── 一键启动.bat             # One-click start + desktop shortcut
+├── 创建快捷方式.bat          # Create desktop shortcut only
 ├── app.py                  # Core (Flask + WebSocket + dual mode)
 ├── tray.py                 # System tray
 ├── zeroconf_service.py     # mDNS auto-discovery
-├── static/                 # Web frontend
+├── static/                 # Web frontend (APK download included)
 ├── templates/              # HTML templates
 ├── android/                # Android app source
 └── installer/              # Windows installer script
