@@ -4,7 +4,7 @@
 
 # ⚡ LANITS — Local Area Network Information Transfer Station
 
-> Copy on PC, auto on phone. Copy on phone, auto on PC. 📋 Send images, videos, ZIP, DOCX at full LAN speed. 🔥
+> Copy on PC, auto on phone. Copy on phone, auto on PC. 📋 Send images, videos, ZIP, DOCX at full LAN speed. 🔥Fixed the issue where files could only be transferred between phones and computers of the same brand and model
 
 ---
 
